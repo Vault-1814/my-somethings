@@ -1,0 +1,124 @@
+ubuntu 16.04 + gazebo9 + ROS kinetic
+
+1) ROS Istalation
+http://wiki.ros.org/kinetic/Installation/Ubuntu
+
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+
+sudo apt-get update
+
+sudo apt-get install ros-kinetic-desktop-full
+
+sudo rosdep init
+
+rosdep update
+
+sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
+
+sudo apt install python-catkin-tools
+
+ADDITIONAL-REQUIRES
+
+sudo apt-get install ros-kinetic-ros-control ros-kinetic-ros-controllers
+
+
+2) Create catkin workspace
+http://wiki.ros.org/catkin/Tutorials/create_a_workspace
+
+source /opt/ros/kinetic/setup.bash
+
+mkdir -p ~/PATH_TO_YOUR_WORKSPACE/src
+
+cd ~/PATH_TO_YOUR_WORKSPACE/
+
+catkin build
+
+echo "source ~/PATH_TO_YOUR_WORKSPACE/devel/setup.bash" >> ~/.bashrc
+
+source ~/.bashrc
+
+
+3) Gazebo9 Installation
+http://gazebosim.org/tutorials?tut=install_ubuntu
+
+sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+
+wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+
+sudo apt-get update
+
+sudo apt-get install libgazebo9-dev
+
+sudo apt-get install ros-kinetic-gazebo9-*
+
+rosrun gazebo_ros gazebo
+
+4) Robot's files install (For example: youbot) (Link github.com/mrclient)
+
+cd ~/PATH_TO_YOUR_WORKSPACE/src
+
+# install youbot description
+
+    cd PATH_TO_YOUR_WORKSPACE/src
+    git clone https://github.com/youbot/youbot_description.git
+    cd youbot_description
+    git checkout -b jade-devel origin/jade-devel
+    cd ../..
+    catkin build youbot_description
+
+# install brics actuator package (if it is not installed):
+
+    cd PATH_TO_YOUR_WORKSPACE/src
+    git clone https://github.com/wnowak/brics_actuator.git
+    cd ..
+    catkin build brics_actuator
+    sudo apt-get install ros-kinetic-pr2-msgs
+
+# simulation files
+    git clone https://github.com/mas-group/youbot_simulation.git
+
+    git checkout -b kinetic-devel origin/kinetic-devel
+    catkin build youbot-simulation
+
+    catkin build youbot-gazebo-control
+
+5) Manual controll
+
+    ?sudo apt install ros-kinetic-teleop-twist-keyboard
+    
+    roscore
+    
+    rosrun gazebo_ros gazebo
+    
+    roslaunch youbot_gazebo_robot youbot.launch 
+    
+    rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+    
+6) Navigation stack
+
+sudo apt install ros-kinetic-navigation ros-kinetic-openslam-gmapping 
+sudo apt install ros-kinetic-slam-gmapping
+
+https://github.com/nicolapiccinelli/youbot_navigation.git
+git checkout -b patch-1 origin/patch-1
+
+?https://github.com/tum-phoenix/drive_ros_hokuyo.git
+
+7) Manipulation 
+
+8) конечные автоматы
+
+
+
+
+TEB KOLYA
+
+sudo apt install ros-kinetic-teb-local-planner
+sudo apt install ros-kinetic-costmap-converter
+
+
+
+
+
